@@ -21,12 +21,13 @@ from django.contrib import admin
 from django.urls import path ,include
 
 
-router = DefaultRouter()
-router.register(r'studentapi', views.StudentModelView)
+# router = DefaultRouter()
+# router.register(r'studentapi', views.StudentModelView)
+# router.register(r'studentapi', views.StudentList.as_view() , basename='student')
 
 urlpatterns = [
     path('admin/',admin.site.urls),
-    path('', include(router.urls)),
+    path('studentapi/', views.StudentList.as_view(), name='student-list'),
     path('auth/',include('rest_framework.urls' , namespace='rest_framework')),
 ]
 
