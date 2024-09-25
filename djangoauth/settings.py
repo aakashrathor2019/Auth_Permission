@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "jwt_authn",
+    "throttle",
+    "filtering",
     "rest_framework_simplejwt",
-    
-
 ]
 
 MIDDLEWARE = [
@@ -129,14 +129,18 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    #  'DEFAULT_AUTHENTICATION_CLASSES':[ 'rest_framework.authentication.BasicAuthentication'],
-    #  'DEFAULT_PERMISSION_CLASSES': [ 'rest_framework.permissions.IsAuthenticated']
+    #Authentication Classes
+     'DEFAULT_AUTHENTICATION_CLASSES':[ 'rest_framework.authentication.BasicAuthentication'],
+     'DEFAULT_PERMISSION_CLASSES': [ 'rest_framework.permissions.IsAuthenticated'],
 
+    #Throttling Classes
     'DEFAULT_THROTTLE_RATES':{
-        'anon':'2/day',
-        'user': '10/hour',
-        'jack': '3/minute',
+        'anon':'5/day',
+        'user': '10/minutes',
+        #'jack': '3/minute',
     },
+
+    #Filter Classes 
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],

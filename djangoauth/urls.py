@@ -18,16 +18,16 @@ Including another URLconf
 from rest_framework.routers import DefaultRouter
 from jwt_authn import views
 from django.contrib import admin
-from django.urls import path ,include
+from django.urls import path, include
 
-
-# router = DefaultRouter()
-# router.register(r'studentapi', views.StudentModelView)
-# router.register(r'studentapi', views.StudentList.as_view() , basename='student')
+router = DefaultRouter()
+router.register(r'student', views.StudentModelView, basename='student')
 
 urlpatterns = [
-    path('admin/',admin.site.urls),
-    path('studentapi/', views.StudentList.as_view(), name='student-list'),
-    path('auth/',include('rest_framework.urls' , namespace='rest_framework')),
+    path('admin/', admin.site.urls),
+    path('', include(router.urls)),  # Use router for jwt_authn app
+    path('throttle/',include('throttle.urls')),
+    path('filter/',include('filtering.urls')),
+    path('auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
