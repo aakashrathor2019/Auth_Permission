@@ -6,7 +6,7 @@ from .models import Employee
 from .serializers import EmployeeSerializer
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter ,OrderingFilter
 
 
 # Filter Data using filter method
@@ -39,7 +39,7 @@ class FilterBackendsFilter(ListAPIView):
   authentication_classes=[SessionAuthentication]
   permission_classes=[IsAuthenticatedOrReadOnly]
   filter_backends=[DjangoFilterBackend]
-  filterset_fields=['name']
+  filterset_fields=['name','pos']
 
 
 #Filter data using search filter class
@@ -50,4 +50,25 @@ class SearchFilter(ListAPIView):
   permission_classes=[IsAuthenticatedOrReadOnly]
   filter_backends=[SearchFilter]
   search_fields=['name','pos']
+
+#Symbolic Search 
+class SybmolicSerach(ListAPIView):
+  queryset=Employee.objects.all()
+  serializer_class=EmployeeSerializer
+  authentication_classes=[SessionAuthentication]
+  permission_classes=[IsAuthenticatedOrReadOnly]
+  filter_backends=[SearchFilter]
+  search_fields = [
+        '^name',  # Starts with search
+        '=name',  # Exact match search
+        '$pos',  # Ends with search
+    ]
   
+
+  
+#Ordering Filter
+class OrderingFilter(ListAPIView):
+  queryset=Employee.objects.all()
+  serializer_class= EmployeeSerializer
+  filter_backends=[OrderingFilter]
+  #ordering_fields=['name'] {use when we wants to apply ordering on any specific field only}

@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include(router.urls)),  # Use router for jwt_authn app
     path('throttle/',include('throttle.urls')),
     path('filter/',include('filtering.urls')),
+    path('pagination/',include('pagination.urls')),
     path('auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
